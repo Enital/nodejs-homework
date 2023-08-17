@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
 
 const { DB_HOST } = process.env;
 
@@ -12,12 +15,7 @@ mongoose
     process.exit(1);
   });
 
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
-
 const contactsRouter = require("./routes/api/contacts");
-const { error } = require("./schema/contacts");
 
 const app = express();
 
@@ -30,7 +28,7 @@ app.use(express.json());
 app.use("/api/contacts", contactsRouter);
 
 app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
+  res.status(404).send({ message: "Not found" });
 });
 
 app.use((err, req, res, next) => {

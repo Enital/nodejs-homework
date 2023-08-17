@@ -1,16 +1,11 @@
 const { Contact } = require("../../models");
 const { contactStatusSchema } = require("../../schema");
 
-const updateStatusContact = async (req, res, next) => {
+async function updateStatusContact(req, res, next) {
   try {
     const { error } = contactStatusSchema.validate(req.body);
     if (error) {
-      res.status(400).json({
-        status: "error",
-        code: 400,
-        message: "missing field favorite",
-      });
-      return;
+      return res.status(400).send({ message: "missing field favorite" });
     }
     const { contactId } = req.params;
     const { favorite } = req.body;
@@ -18,23 +13,16 @@ const updateStatusContact = async (req, res, next) => {
       contactId,
       { favorite },
       { new: true }
-    );
-    if (!updatedContact) {
-      res.status(404).json({
-        status: "error",
-        code: 404,
-        message: "Not found",
-      });
-      return;
+    ).exec();
+
+    if (updatedContact === null) {
+      return res.status(404).send({ message: "Not found" });
     }
-    res.json({
-      status: "success",
-      code: 200,
-      data: { result: updatedContact },
-    });
+
+    return res.status(200).send({ updatedContact });
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = updateStatusContact;

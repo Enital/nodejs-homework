@@ -1,25 +1,18 @@
 const { Contact } = require("../../models");
 
-const getById = async (req, res, next) => {
+async function getById(req, res, next) {
+  const { contactId } = req.params;
+
   try {
-    const { contactId } = req.params;
-    const contact = await Contact.findById(contactId);
-    if (!contact) {
-      res.status(404).json({
-        status: "error",
-        code: 404,
-        message: "Not found",
-      });
-      return;
+    const contact = await Contact.findById(contactId).exec();
+    if (contact === null) {
+      return res.status(404).send({ message: "Not found" });
     }
-    res.json({
-      status: "success",
-      code: 200,
-      data: { result: contact },
-    });
+
+    return res.status(200).send({ message: "Contact found", contact });
   } catch (error) {
     next(error);
   }
-};
+}
 
 module.exports = getById;
