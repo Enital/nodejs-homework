@@ -19,7 +19,11 @@ const userSchema = new Schema(
     },
     token: {
       type: String,
-      default: "",
+      default: null,
+    },
+    avatar: {
+      type: String,
+      default: null,
     },
   },
   { versionKey: false, timestamps: true }
