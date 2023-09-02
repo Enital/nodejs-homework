@@ -1,4 +1,4 @@
-const { user } = require("../../models/users");
+const { User } = require("../../models/users");
 const { HttpError, sendEmail } = require("../../utils");
 
 require("dotenv").config();
@@ -18,7 +18,13 @@ const resendVerifyEmail = async (req, res) => {
 
   const verifyEmail = {
     to: email,
-    subject: "Verify your email",
-    html: `<a href="${BASE_URL}/api/users/verify/${user._id}">Verify your email</a>`,
+    subject: "Verify email",
+    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${user.verificationToken}">Click to verify email</a>`,
   };
+
+  await sendEmail(verifyEmail);
+
+  res.json({ message: "Verification email sent" });
 };
+
+module.exports = resendVerifyEmail;

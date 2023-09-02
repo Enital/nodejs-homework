@@ -13,6 +13,7 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
     verify: true,
   }).exec();
+
   res.json({ message: "Verification successful" });
 };
 

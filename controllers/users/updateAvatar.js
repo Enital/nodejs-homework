@@ -5,7 +5,7 @@ const Jimp = require("jimp");
 const { User } = require("../../models/users");
 const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
 
-const updateAvatar = async (req, res, next) => {
+const updateAvatar = async (req, res) => {
   const { _id } = req.user;
   const { path: tempUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;

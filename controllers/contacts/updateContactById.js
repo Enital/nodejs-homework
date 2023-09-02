@@ -6,9 +6,11 @@ const updateContactById = async (req, res) => {
   const result = await Contact.findByIdAndUpdate(id, req.body, {
     new: true,
   }).exec();
+
   if (!result) {
     throw HttpError(404, "Not found");
   }
+
   res.json(result);
 };
 
