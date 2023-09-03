@@ -1,8 +1,6 @@
 const express = require("express");
 const routes = express.Router();
-
 const { authenticate, upload } = require("../../middlewares");
-
 const ctrl = require("../../controllers/users");
 
 routes.patch(

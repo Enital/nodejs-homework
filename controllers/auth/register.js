@@ -1,5 +1,5 @@
-const { User } = require("../../models/users");
-const { HttpError } = require("../../utils");
+const { User } = require("../../models/user");
+const { HttpError, sendEmail } = require("../../utils");
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const crypto = require("crypto");
@@ -9,11 +9,9 @@ const { BASE_URL } = process.env;
 const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).exec();
-
   if (user) {
     throw HttpError(409, "Email in use");
   }
-
   const hashPassword = await bcrypt.hash(password, 10);
   const avatarURL = gravatar.url(email);
   const verificationToken = crypto.randomUUID();

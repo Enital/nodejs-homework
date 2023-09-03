@@ -1,4 +1,4 @@
-const { User } = require("../../models/users");
+const { User } = require("../../models/user");
 const { HttpError } = require("../../utils");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -10,6 +10,7 @@ const login = async (req, res) => {
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
+
   if (!user.verify) {
     throw HttpError(401, "Email not verified");
   }

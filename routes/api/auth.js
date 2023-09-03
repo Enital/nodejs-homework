@@ -1,10 +1,7 @@
 const express = require("express");
-
 const routes = express.Router();
-
 const { validateBody, authenticate } = require("../../middlewares");
-const { schemas } = require("../../models/users");
-
+const { schemas } = require("../../models/user");
 const ctrl = require("../../controllers/auth");
 
 routes.post("/register", validateBody(schemas.registerSchema), ctrl.register);

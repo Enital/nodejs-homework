@@ -1,4 +1,4 @@
-const { User } = require("../../models/users");
+const { User } = require("../../models/user");
 const { HttpError } = require("../../utils");
 
 const verifyEmail = async (req, res) => {
@@ -6,15 +6,17 @@ const verifyEmail = async (req, res) => {
   const user = await User.findOne({ verificationToken }).exec();
 
   if (!user) {
-    throw HttpError(401, "User not found");
+    throw HttpError(401, "User Not found");
   }
 
   await User.findByIdAndUpdate(user._id, {
-    verificationToken: null,
     verify: true,
+    verificationToken: "",
   }).exec();
 
-  res.json({ message: "Verification successful" });
+  res.json({
+    message: "Verification successful",
+  });
 };
 
 module.exports = verifyEmail;
